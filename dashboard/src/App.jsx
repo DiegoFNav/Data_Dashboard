@@ -68,7 +68,7 @@ function App() {
     <div className='main_container'>
       <div className='heading_container'><h1>Pokemon Search Dashboard</h1></div>
       <input type="text" value={searchText} onChange={handleChange} />
-      <button onClick={handleSearch}>Search</button>
+      <button className="button" onClick={handleSearch}>Search</button>
       <table>
         <thead>
           <tr>

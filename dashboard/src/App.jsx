@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+//test
 function App() {
   const [searchText, setSearchText] = useState('');
   const [pokemonList, setPokemonList] = useState([]);

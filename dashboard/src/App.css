@@ -1,0 +1,61 @@
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 800px;
+}
+
+/* Style for the input field */
+.input-field {
+  margin-bottom: 10px;
+}
+
+/* Style for the button */
+.button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Style for table headings */
+th {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Style for table data */
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style for alternate rows */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+  color: black;
+}
+
+tr:nth-child(odd) {
+  background-color: #ef1313;
+  color: black;
+}
+
+/* Style for images */
+img {
+  width: 80px;
+  height: auto;
+}

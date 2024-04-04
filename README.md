@@ -1,29 +1,23 @@
-# Web Development Project 5 - Pokemon Search Dashboard
+# Web Development Project 6 - Pokemon Search Dashboard
 
 Submitted by: Diego Navarro
 
-This web app: takes in a search string and displays all pokemone with that search string in their name.
+This web app: Takes in a search string and displays all pokemon with that search string in their name.
 
-Time spent: 7 hours spent in total
+Time spent: 8 hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
-- [x] **The list displays a list of data fetched using an API call**
-- [x] **Data uses the useEffect React hook and async/await syntax**
-- [x] **The app dashboard includes at least three summary statistics about the data such as**
-  - [x] Total number of Pokemon
-  - [x] Average Height
-  - [x] Average Weight
-- [x] **A search bar allows the user to search for an item in the fetched data**
-- [x] **Multiple different filters (2+) allow the user to filter items in the database by specified categories**
+- [x] **The app includes at least one unique chart developed using the fetched data that tell an interesting story**
+- [x] **Clicking on an item in the list view displays more details about it**
+- [x] **Clicking on an item has a direct, unique link to that item's detail view page**
 
 The following **optional** features are implemented:
 
-- [ ] Multiple filters can be applied simultaneously
-- [ ] Filters use different input types such as a text input, a selection, or a slider
-- [ ] The user can enter specific bounds for filter values
+- [ ] The site's customized dashboard contains more content that explains what is interesting about the data
+- [ ] The site allows users to toggle between different data visualizations
 
 The following **additional** features are implemented:
 
@@ -33,7 +27,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='HW.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='HW6.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with LiceCap
 
@@ -41,7 +35,7 @@ GIF created with LiceCap
 
 Describe any challenges encountered while building the app.
 
-The biggest challenge was navigating the documentation of the API. Often I found myself lost on what my data was doing causing lots of misunderstandings.
+The main challenge was figuring out how to properly perform routing. It was a little confusign at first figuring out the format of my main.jsx to have a browser router wrap around the whole application. From there It was also difficult deciding what data for each pokemon to display, as alot of the attributes of pokemon are very variable so how eveyrthing fits in the details page could vary by size a lot depending on the pokemon. I ended up choosing attributes that are guaranteed to have only one value to ensure text does not leak out the box when viewing details.
 
 ## License
 

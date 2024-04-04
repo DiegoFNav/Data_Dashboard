@@ -1,19 +1,58 @@
 import React, { useState, useEffect } from 'react';
+import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line } from 'recharts';
 import './App.css';
 
 //test
 function App() {
   const [searchText, setSearchText] = useState('');
   const [pokemonList, setPokemonList] = useState([]);
-  const [numToShow, setNumToShow] = useState(30);
   const [total, setTotal] = useState(30);
   const [avgWeight, setAvgWeight] = useState(0);
   const [avgHeight, setAvgHeight] = useState(0);
   const [sortBy, setSortBy] = useState('Name');
+  const [avgHeights, setavgHeights] = useState([
+    {Name: 'Grass', Value: 0},
+    {Name: 'Fire', Value: 0},
+    {Name: 'Water', Value: 0},
+    {Name: 'Electric', Value: 0},
+    {Name: 'Normal', Value: 0},
+    {Name: 'Bug', Value: 0},
+    {Name: 'Flying', Value: 0},
+    {Name: 'Poison', Value: 0},
+    {Name: 'Ground', Value: 0},
+    {Name: 'Rock', Value: 0},
+    {Name: 'Steel', Value: 0},
+    {Name: 'Fighting', Value: 0},
+    {Name: 'Psychic', Value: 0},
+    {Name: 'Dark', Value: 0},
+    {Name: 'Ghost', Value: 0},
+    {Name: 'Ice', Value: 0},
+    {Name: 'Fairy', Value: 0},
+    {Name: 'Dragon', Value: 0}
+  ]);
+
+  const numToShow = 50;
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    calculateAverageHeightByType();
+  }, [pokemonList]);
+
+
+  const shuffleArray = array => {
+    // Iterate over each element in the array
+    for (let i = array.length - 1; i > 0; i--) {
+      // Generate a random index between 0 and i
+      const j = Math.floor(Math.random() * (i + 1));
+      // Swap the current element with the randomly selected element
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 
   const fetchData = async () => {
     try {
@@ -22,7 +61,7 @@ function App() {
         throw new Error('Failed to fetch data');
       }
       const data = await response.json();
-      const firstXPokemon = data.results.slice(0, numToShow);
+      const firstXPokemon = shuffleArray(data.results).slice(0, numToShow);
       const pokemonDataList = await Promise.all(firstXPokemon.map(pokemon => getPokemonData(pokemon.url)));
       setPokemonList(pokemonDataList);
       setAvgHeight(pokemonList.reduce((acc, pokemon) => acc + pokemon.height, 0) / pokemonList.length);
@@ -52,7 +91,7 @@ function App() {
       if (filtered.length === 0) {
         console.log('No results found');
       }
-      const firstXPokemon = filtered.slice(0, numToShow);
+      const firstXPokemon = shuffleArray(filtered).slice(0, numToShow);
       setPokemonList(firstXPokemon);
       setAvgHeight(firstXPokemon.reduce((acc, pokemon) => acc + pokemon.height, 0) / pokemonList.length);
       setAvgWeight(firstXPokemon.reduce((acc, pokemon) => acc + pokemon.weight, 0) / pokemonList.length);
@@ -88,6 +127,39 @@ function App() {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  const calculateAverageHeightByType = () => {
+    const typeMap = {}; // Object to store accumulated height and count for each type
+    const typeCount = {}; // Object to store the count of each type
+  
+    // Iterate over the pokemonList to accumulate height data for each type
+    pokemonList.forEach(pokemon => {
+      pokemon.types.forEach(type => {
+        const typeName = type.type.name;
+        if (!typeMap[typeName]) {
+          typeMap[typeName] = 0;
+          typeCount[typeName] = 0;
+        }
+        typeMap[typeName] += pokemon.height;
+        typeCount[typeName]++;
+      });
+    });
+  
+    // Calculate the average height for each type
+    const averageHeights = Object.keys(typeMap).map(type => ({
+      Name: capitalizeFirstLetter(type),
+      Value: parseInt(Math.floor(typeMap[type] / typeCount[type]) / Math.pow(10, 1)), // Calculate average height for the type
+    }));
+
+    const updatedAvgHeights = avgHeights.map(avgType => {
+      const matchingType = averageHeights.find(type => type.Name === avgType.Name);
+      if (matchingType) {
+        avgType.Value = matchingType.Value;
+      }
+      return avgType;
+    });
+    setavgHeights(updatedAvgHeights);
+  };
+
   return (
     <div className='main_container'>
       <div className='heading_container'><h1>Pokemon Search Dashboard</h1></div>
@@ -111,7 +183,26 @@ function App() {
         <div className='stat_card'>
           <h3>Average Weight: {parseInt(avgWeight / Math.pow(10, 1))}kg</h3>
         </div>
-
+      </div>
+      <div className='graph'>
+        <BarChart
+          width={1190}
+          height={300}
+          data={avgHeights}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="Name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Value" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+        </BarChart>
       </div>
       <table>
         <thead>
@@ -135,7 +226,6 @@ function App() {
               <td>{pokemon.weight / Math.pow(10, 1)}kg</td>
               <td>{capitalizeFirstLetter(pokemon.types[0].type.name)}</td>
               <td>{pokemon.types[1] && capitalizeFirstLetter(pokemon.types[1].type.name)}</td>
-              
             </tr>
           ))}
         </tbody>

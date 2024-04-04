@@ -32,7 +32,6 @@ body {
   max-width: 800px;
 }
 
-/* Style for the input field */
 .input-field {
   margin-bottom: 10px;
 }
@@ -83,9 +82,9 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 40px;
 }
 
-/* Style for table headings */
 th {
   background-color: #007bff;
   color: #fff;
@@ -93,13 +92,11 @@ th {
   text-align: left;
 }
 
-/* Style for table data */
 td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-/* Style for alternate rows */
 tr:nth-child(even) {
   background-color: #f2f2f2;
   color: black;
@@ -110,8 +107,15 @@ tr:nth-child(odd) {
   color: black;
 }
 
-/* Style for images */
 img {
-  width: 80px;
+  width: 100px;
   height: auto;
+}
+
+.graph {
+  padding-top: 40px;
+  background-color: whitesmoke;
+  margin-bottom: 60px;
+  border-radius: 15px;
+  border: 2px solid black;
 }

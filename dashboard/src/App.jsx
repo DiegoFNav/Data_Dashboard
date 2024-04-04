@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { LineChart, Line } from 'recharts';
 import './App.css';
+import { Link } from 'react-router-dom';
 
 //test
 function App() {
@@ -44,11 +44,8 @@ function App() {
 
 
   const shuffleArray = array => {
-    // Iterate over each element in the array
     for (let i = array.length - 1; i > 0; i--) {
-      // Generate a random index between 0 and i
       const j = Math.floor(Math.random() * (i + 1));
-      // Swap the current element with the randomly selected element
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
@@ -124,14 +121,17 @@ function App() {
   };
 
   const capitalizeFirstLetter = str => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    const words = str.split('-');
+    let capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+    capitalizedWords.reverse();
+    const capitalizedString = capitalizedWords.join(' ');
+    return capitalizedString;
   };
 
   const calculateAverageHeightByType = () => {
-    const typeMap = {}; // Object to store accumulated height and count for each type
-    const typeCount = {}; // Object to store the count of each type
+    const typeMap = {};
+    const typeCount = {};
   
-    // Iterate over the pokemonList to accumulate height data for each type
     pokemonList.forEach(pokemon => {
       pokemon.types.forEach(type => {
         const typeName = type.type.name;
@@ -144,10 +144,9 @@ function App() {
       });
     });
   
-    // Calculate the average height for each type
     const averageHeights = Object.keys(typeMap).map(type => ({
       Name: capitalizeFirstLetter(type),
-      Value: parseInt(Math.floor(typeMap[type] / typeCount[type]) / Math.pow(10, 1)), // Calculate average height for the type
+      Value: Math.floor(typeMap[type] / typeCount[type]) / Math.pow(10, 1),
     }));
 
     const updatedAvgHeights = avgHeights.map(avgType => {
@@ -185,6 +184,7 @@ function App() {
         </div>
       </div>
       <div className='graph'>
+        <h4>Average Height of each Type (m)</h4>
         <BarChart
           width={1190}
           height={300}
@@ -200,7 +200,6 @@ function App() {
           <XAxis dataKey="Name" />
           <YAxis />
           <Tooltip />
-          <Legend />
           <Bar dataKey="Value" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
         </BarChart>
       </div>
@@ -218,7 +217,7 @@ function App() {
         <tbody>
           {pokemonList.map((pokemon, index) => (
             <tr key={index}>
-              <td>{capitalizeFirstLetter(pokemon.name)}</td>
+              <td><Link to={`/pokemon/${pokemon.id}`}>{capitalizeFirstLetter(pokemon.name)}</Link></td>
               <td>
                 {pokemon.sprites && <img src={pokemon.sprites.front_default} alt={pokemon.name} />}
               </td>
